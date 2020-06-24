@@ -25,17 +25,20 @@ tetrominoes = [[0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 
 @dataclass
 class Tetrominoe():
-	zeile : int = 0
-	spalte : int = 3
-	tet : list
+    tet: list
+    zeile: int = 0
+    spalte: int = 3
 
-	def show(self):
-		for n, farbe in enumerate(self.tet):
-			if farbe > 0:
-				#position ermitteln
-				y = n // 4 * ABSTAND # Y = Zeilen
-				x = n % 4 * ABSTAND # X = Spalten
-				
+    def show(self):
+        for n, farbe in enumerate(self.tet):
+            if farbe > 0:
+                # position ermitteln
+                y = (self.zeile + n // 4) * ABSTAND  # Y = Zeilen
+                x = (self.spalte + n % 4) * ABSTAND  # X = Spalten
+                screen.blit(bilder[farbe], (x,y))
+
+figur = Tetrominoe(tetrominoes[3])             
+
 
 weitermachen = True
 
@@ -44,6 +47,7 @@ while weitermachen:
         if event.type == pg.QUIT:
             weitermachen = False
     screen.fill((0, 0, 0))
+    figur.show()
     for n, farbe in enumerate(grid):
         if farbe > 0:
             x = n % SPALTEN * ABSTAND
