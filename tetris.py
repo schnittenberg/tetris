@@ -5,7 +5,7 @@ BREITE, SPALTEN, ZEILEN = 400, 10, 20
 ABSTAND = BREITE // SPALTEN
 HÖHE = ABSTAND * ZEILEN
 grid = [0] * SPALTEN * ZEILEN
-
+speed = 500
 bilder = []
 for n in range(8):
     bilder.append(pg.transform.scale(
@@ -13,6 +13,11 @@ for n in range(8):
 
 pg.init()
 screen = pg.display.set_mode([BREITE, HÖHE])
+TETROMINODOWN = pg.USEREVENT+1
+SPEEDUP = pg.USEREVENT+2
+pg.time.set_timer(TETROMINODOWN, speed)
+pg.time.set_timer(SPEEDUP, 30_000)
+
 
 tetrominoes = [[0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                [0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -37,15 +42,25 @@ class Tetrominoe():
                 x = (self.spalte + n % 4) * ABSTAND  # X = Spalten
                 screen.blit(bilder[farbe], (x,y))
 
+    def update(self, zOff, sOff):
+        self.zeile += zOff
+        self.spalte += sOff
+
 figur = Tetrominoe(tetrominoes[3])             
 
 
 weitermachen = True
-
+clock = pg.time.Clock()
 while weitermachen:
+    clock.tick(5)
     for event in pg.event.get():
         if event.type == pg.QUIT:
             weitermachen = False
+        if event.type == TETROMINODOWN:
+            figur.update(1,0)
+        if event.type == SPEEDUP:
+            speed = int(speed * 0.8)
+            pg.time.set_timer(TETROMINODOWN, 500)
     screen.fill((0, 0, 0))
     figur.show()
     for n, farbe in enumerate(grid):
