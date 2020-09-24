@@ -61,6 +61,15 @@ while weitermachen:
         if event.type == SPEEDUP:
             speed = int(speed * 0.8)
             pg.time.set_timer(TETROMINODOWN, 500)
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_LEFT:
+                figur.update(0,-1)
+            if event.key == pg.K_RIGHT:
+                figur.update(0,1)
+            if event.key == pg.K_DOWN:
+                figur.update(1,0)
+            
+              
     screen.fill((0, 0, 0))
     figur.show()
     for n, farbe in enumerate(grid):
