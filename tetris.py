@@ -17,6 +17,7 @@ TETROMINODOWN = pg.USEREVENT+1
 SPEEDUP = pg.USEREVENT+2
 pg.time.set_timer(TETROMINODOWN, speed)
 pg.time.set_timer(SPEEDUP, 30_000)
+pg.key.set_repeat(1,100)
 
 
 tetrominoes = [[0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
